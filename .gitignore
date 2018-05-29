@@ -1,0 +1,34 @@
+src/*.exe
+src/eusmcoin
+src/eusmcoind
+src/test_eusmcoin
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.o
+*.patch
+.eusmcoin
+
+# Compilation and Qt preprocessor part
+*.qm
+Makefile
+eusmcoin-qt
+Eusmcoin-Qt.app
+
+# Unit-tests
+Makefile.test
+eusmcoin-qt_test
+
+# Resources cpp
+qrc_*.cpp
+
+# Qt creator
+*.pro.user
+
+# Mac specific
+.DS_Store
+build
+
+!src/leveldb*/Makefile
