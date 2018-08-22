@@ -11,13 +11,15 @@ What is Eusmcoin?
 ----------------
 
 Eusmcoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
- - 2.5 minute block targets
- - subsidy halves in 840k blocks (~4 years)
+ - 1 minute block targets
+ - subsidy halves in 8400k blocks (~4 years)
  - ~1 billion total coins
  - block size doubled
+ - 240esm initial block reward
+ - more small changes were done
 
 The rest is simmilar to Bitcoin.
- - 2016 blocks to retarget difficulty
+ - 2880 blocks to retarget difficulty
 
 For more information, as well as an immediately useable, binary version of
 the Eusmcoin client sofware, see http://www.eusmcoin.org.
@@ -46,7 +48,7 @@ match the project's coding conventions (see `doc/coding.txt`) or are
 controversial.
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/eusmcoin-project/eusmcoin/tags) are created
+completely stable. [Tags](https://github.com/EusmCoin/EusmCoin/tags) are created
 regularly to indicate new official, stable release versions of Eusmcoin.
 
 Testing
@@ -71,4 +73,3 @@ Unit tests for the GUI code are in `src/qt/test/`. To compile and run them:
     qmake BITCOIN_QT_TEST=1 -o Makefile.test bitcoin-qt.pro
     make -f Makefile.test
     ./eusmcoin-qt_test
-
