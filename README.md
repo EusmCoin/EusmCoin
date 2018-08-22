@@ -19,7 +19,7 @@ Eusmcoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
  - more small changes were done
 
 The rest is simmilar to Bitcoin.
- - 2880 blocks to retarget difficulty
+ - 2880 blocks to retarget difficulty (2 days)
 
 For more information, as well as an immediately useable, binary version of
 the Eusmcoin client sofware, see http://www.eusmcoin.org.
