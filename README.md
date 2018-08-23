@@ -12,7 +12,7 @@ What is Eusmcoin?
 
 Eusmcoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
  - 1 minute block targets
- - subsidy halves in 8400k blocks (~4 years)
+ - subsidy halves in 2100k blocks (~4 years)
  - ~1 billion total coins
  - block size doubled
  - 240esm initial block reward
