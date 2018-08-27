@@ -27,6 +27,87 @@ std::string HelpRequiringPassphrase()
         : "";
 }
 
+void LoadMainWallet()
+{
+    bool fFirstRun = true;
+    pwalletMain = new CWallet("wallet.dat");
+    DBErrors nLoadWalletRet = pwalletMain->LoadWallet(fFirstRun);
+    if (nLoadWalletRet != DB_LOAD_OK)
+    {
+        if (nLoadWalletRet == DB_CORRUPT)
+            std::cout << "Error loading wallet.dat: Wallet corrupted" << "\n";
+        else if (nLoadWalletRet == DB_NONCRITICAL_ERROR)
+        {
+            std::cout << "Warning: error reading wallet.dat! All keys read correctly, but transaction data"
+                         " or address book entries might be missing or incorrect." << "\n";
+        }
+        else if (nLoadWalletRet == DB_TOO_NEW)
+            std::cout << "Error loading wallet.dat: Wallet requires newer version of Eusmcoin" << "\n";
+        else if (nLoadWalletRet == DB_NEED_REWRITE)
+        {
+            std::cout << "Wallet needed to be rewritten: restart Eusmcoin to complete" << "\n";
+        }
+        else
+            std::cout << "Error loading wallet.dat" << "\n";
+    }
+}
+
+Value loadanotherwallet(const Array& params, bool fHelp)
+{
+	// added RPC function for multi-wallet support
+	// WARNING: This function changes the main wallet for the whole daemon!
+
+	if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "loadanotherwallet <filename>\n"
+            "Load a wallet specified by wallet file name");
+    string walletname = params[0].get_str();
+
+	int64 nStart = GetTimeMillis();
+    bool fFirstRun = true;
+    pwalletMain = new CWallet(walletname);
+    DBErrors nLoadWalletRet = pwalletMain->LoadWallet(fFirstRun);
+    if (nLoadWalletRet != DB_LOAD_OK)
+    {
+        if (nLoadWalletRet == DB_CORRUPT)
+        {
+            //strErrors << _("Error loading wallet.dat: Wallet corrupted") << "\n";
+            LoadMainWallet();
+            throw JSONRPCError(RPC_WALLET_ERROR, "Error loading " + walletname + ": Wallet corrupted");
+        }
+        else if (nLoadWalletRet == DB_NONCRITICAL_ERROR)
+        {
+            /*string msg(_("Warning: error reading wallet.dat! All keys read correctly, but transaction data"
+                         " or address book entries might be missing or incorrect."));
+            InitWarning(msg);*/
+            LoadMainWallet();
+            throw JSONRPCError(RPC_WALLET_ERROR, "Error reading " + walletname + "! All keys read correctly, but transaction data or address book entries might be missing or incorrect.");
+        }
+        else if (nLoadWalletRet == DB_TOO_NEW)
+        {
+            //strErrors << _("Error loading wallet.dat: Wallet requires newer version of Eusmcoin") << "\n";
+            LoadMainWallet();
+            throw JSONRPCError(RPC_WALLET_ERROR, "Error loading " + walletname + ": Wallet requires newer version of Eusmcoin");
+        }
+        else if (nLoadWalletRet == DB_NEED_REWRITE)
+        {
+            /*strErrors << _("Wallet needed to be rewritten: restart Eusmcoin to complete") << "\n";
+            printf("%s", strErrors.str().c_str());
+            return InitError(strErrors.str());*/
+            LoadMainWallet();
+            throw JSONRPCError(RPC_WALLET_ERROR, "Wallet needs to be rewritten: restart EusmCoin to complete");
+        }
+        else
+        {
+            //strErrors << _("Error loading wallet.dat") << "\n";
+            LoadMainWallet();
+            throw JSONRPCError(RPC_WALLET_ERROR, "Error loading " + walletname);
+        }
+    }
+    return (walletname + " loaded in " + to_string(GetTimeMillis() - nStart) + " milliseconds.");
+
+}
+
 void EnsureWalletIsUnlocked()
 {
     if (pwalletMain->IsLocked())
@@ -170,7 +251,7 @@ Value getaccountaddress(const Array& params, bool fHelp)
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "getaccountaddress <account>\n"
-            "Returns the current Litecoin address for receiving payments to this account.");
+            "Returns the current Eusmcoin address for receiving payments to this account.");
 
     // Parse the account first so we don't generate a key if there's an error
     string strAccount = AccountFromValue(params[0]);
@@ -639,7 +720,7 @@ Value sendfrom(const Array& params, bool fHelp)
     string strAccount = AccountFromValue(params[0]);
     CBitcoinAddress address(params[1].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Litecoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Eusmcoin address");
     int64 nAmount = AmountFromValue(params[2]);
     int nMinDepth = 1;
     if (params.size() > 3)
@@ -1617,4 +1698,3 @@ Value listlockunspent(const Array& params, bool fHelp)
 
     return ret;
 }
-
