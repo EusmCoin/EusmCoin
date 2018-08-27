@@ -57,7 +57,7 @@ Value loadanotherwallet(const Array& params, bool fHelp)
 	// added RPC function for multi-wallet support
 	// WARNING: This function changes the main wallet for the whole daemon!
 
-	if (fHelp || params.size() != 0)
+	if (fHelp || params.size() != 1)
         throw runtime_error(
             "loadanotherwallet <filename>\n"
             "Load a wallet specified by wallet file name");
