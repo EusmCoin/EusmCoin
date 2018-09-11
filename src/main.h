@@ -27,7 +27,7 @@ class CNode;
 struct CBlockIndexWorkComparator;
 
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
-static const unsigned int MAX_BLOCK_SIZE = 2000000;                      // 2000KB block hard limit
+static const unsigned int MAX_BLOCK_SIZE = 1500000;                      // 1500KB block hard limit
 /** Obsolete: maximum size for mined blocks */
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/8;         // 250KB  block soft limit
 /** Default for -blockmaxsize, maximum size for mined blocks **/
@@ -53,7 +53,7 @@ static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 ESM
 /** Dust Hard Limit, ignored as wallet inputs (mininput default) */
 static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 ESM mininput
 /** No amount larger than this (in satoshi) is valid */
-static const int64 MAX_MONEY = 1008000000 * COIN;
+static const int64 MAX_MONEY = 1009000000 * COIN;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 100;
